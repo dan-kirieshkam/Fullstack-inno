@@ -1,1 +1,2 @@
-print("avava")
+import sys
+print(sys.path)
