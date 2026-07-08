@@ -1,5 +1,6 @@
 from functools import lru_cache
 from pydantic_settings import BaseSettings, SettingsConfigDict
+<<<<<<< HEAD
 class Settings(BaseSettings):
     app_name: str = "FullStack API"
     app_version: str = "0.1.0"
@@ -15,3 +16,23 @@ class Settings(BaseSettings):
 @lru_cache
 def get_settings()-> Settings:
     return Settings()
+=======
+
+class Settings(BaseSettings):
+    app_name: str = "INFINITY ABOBA"
+    app_version: str = "0.1.0"
+    debug: bool = True
+
+    host: str = "127.0.0.1"
+    port: int = 8000
+
+    database_url: str = "sqlite:///./database.db"
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        env_file_encoding="utf-8",
+        extra="ignore",
+    )
+@lru_cache
+def get_settings() -> Settings:
+    return Settings()
+>>>>>>> a612e787b71ad0443df6cf4cac1d699371ab7049
