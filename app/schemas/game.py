@@ -1,24 +1,24 @@
-from pydantic import BaseModel
-<<<<<<< HEAD
-class BookCreate(BaseModel):
-    title: str
-    author: str
-    previe: int
-class BookResponse(BaseModel):
-    id: int
-    title: str
-    author: str
-    previe: int
-=======
+from pydantic import BaseModel, ConfigDict, Field
+from app.schemas.cat import CatResponse  
+
 
 class GameCreate(BaseModel):
-    title: str
-    author: str
-    previe: str
+    title: str = Field(min_length=1, max_length=200)
+    author: str = Field(min_length=1, max_length=200)
+    prev: str = Field(min_length=1, max_length=200)
+    category_id: int = Field(gt=0)
+
+class GameUpdate(BaseModel):
+    title: str | None = Field(default=None, min_length=1, max_length=200)
+    author: str | None = Field(default=None, min_length=1, max_length=200)
+    prev: str | None = Field(default=None, min_length=1, max_length=200)
+
 
 class GameResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
     id: int
     title: str
     author: str
-    previe: str
->>>>>>> a612e787b71ad0443df6cf4cac1d699371ab7049
+    prev: str
+    category: CatResponse | None = None 

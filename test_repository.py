@@ -9,8 +9,8 @@ db = SessionLocal()
 repository = GameRepository(db)
 
 game = Game(
-    title="halyl",
-    previe="третьей халвы не будет",
+    title="Высоконагруженные приложения",
+    author="Мартин Клеппман",
 )
 
 repository.create(game)
@@ -18,6 +18,6 @@ repository.create(game)
 games = repository.get_all()
 
 for game in games:
-    print(game.id, game.title, game.previe)
+    print(game.id, game.title, game.author)
 
 db.close()
