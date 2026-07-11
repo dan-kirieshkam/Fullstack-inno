@@ -17,6 +17,8 @@ class Game(Base):
 
     category_id: Mapped[int] = mapped_column(ForeignKey("categories.id"), nullable=False)
     categories = relationship("Cat", back_populates="games")
+
+    users = relationship("Favorite", backref='game')
 # class Category(Base):
 #     __tablename__ = "categories"
 

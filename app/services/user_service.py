@@ -23,6 +23,9 @@ class UserService:
 
         user = User(
             email=schema.email,
+            name=schema.name,
+            bursday=schema.bursday,
+            prev=schema.prev,
             hashed_password=hash_password(schema.password),
             is_active=True,
             role=UserRole.USER.value,

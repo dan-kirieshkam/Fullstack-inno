@@ -1,7 +1,7 @@
 from enum import Enum
 
 from sqlalchemy import Boolean, String
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.database import Base
 
@@ -28,3 +28,10 @@ class User(Base):
         default=UserRole.USER.value,
         nullable=False,
     )
+    name: Mapped[str] = mapped_column(String, nullable=True)
+
+    bursday: Mapped[str] = mapped_column(String, nullable=True) 
+
+    prev: Mapped[str] = mapped_column(String, nullable=True)
+
+    games = relationship("Favorite", backref='user')

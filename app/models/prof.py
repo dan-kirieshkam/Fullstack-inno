@@ -4,6 +4,7 @@
 # from sqlalchemy import Boolean, String, ForeignKey
 # from sqlalchemy.orm import Mapped, mapped_column, relationship
 
+
 # class Profile(Base):
 #     __tablename__ = "profiles"
 
@@ -17,3 +18,9 @@
 #     user: Mapped["User"] = relationship(
 #         back_populates="profile",
 #     )
+
+#     name: Mapped[str] = mapped_column(String, nullable=True)
+
+#     bursday: Mapped[str] = mapped_column(String, nullable=True) 
+
+#     prev: Mapped[str] = mapped_column(String, nullable=True)

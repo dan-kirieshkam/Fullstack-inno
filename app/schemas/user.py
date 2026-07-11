@@ -7,6 +7,10 @@ class UserCreate(BaseModel):
     email: str = Field(min_length=3, max_length=255)
     password: str = Field(min_length=6, max_length=128)
 
+    name: str = Field(min_length=3, max_length=50)
+    bursday: str = Field(min_length=3, max_length=100)
+    prev: str = Field(min_length=3, max_length=255)
+
     @field_validator("email")
     @classmethod
     def normalize_email(cls, value: str) -> str:
@@ -21,6 +25,10 @@ class UserCreate(BaseModel):
 class UserLogin(BaseModel):
     email: str = Field(min_length=3, max_length=255)
     password: str = Field(min_length=1, max_length=128)
+
+    # name: str = Field(min_length=3, max_length=50)
+    # bursday: str = Field(min_length=3, max_length=100)
+    # prev: str = Field(min_length=3, max_length=255)
 
     @field_validator("email")
     @classmethod
@@ -38,6 +46,9 @@ class UserResponse(BaseModel):
 
     id: int
     email: str
+    name: str
+    bursday: str
+    prev: str
     is_active: bool
     role: UserRole
 
