@@ -29,9 +29,10 @@ class User(Base):
         nullable=False,
     )
     name: Mapped[str] = mapped_column(String, nullable=True)
-
     bursday: Mapped[str] = mapped_column(String, nullable=True) 
-
     prev: Mapped[str] = mapped_column(String, nullable=True)
 
-    games = relationship("Favorite", backref='user')
+    # ИЗМЕНЕНО: было games = relationship("Favorite", backref='user')
+    favorites = relationship("Favorite", back_populates="user", cascade="all, delete-orphan")
+    
+    favorite_games = relationship("Game", secondary="favorites", viewonly=True)

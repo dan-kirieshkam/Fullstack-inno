@@ -3,10 +3,9 @@ from datetime import datetime, timedelta, timezone
 
 from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
-# from jose import JWTError
+from jose import JWTError, jwt
 from passlib.context import CryptContext
 from sqlalchemy.orm import Session
-import jwt
 
 from app.config.config import get_settings
 from app.database import get_db
@@ -14,7 +13,7 @@ from app.models.user import User, UserRole
 from app.repositories.user_repository import UserRepository
 from app.schemas.token import TokenData
 
-password_context = CryptContext(schemes=["argon2"], deprecated="auto")
+password_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 bearer_scheme = HTTPBearer(auto_error=False)
 
 
@@ -58,7 +57,7 @@ def decode_access_token(token: str) -> TokenData:
             raise _credentials_error()
 
         return TokenData(user_id=int(subject))
-    except (jwt.exceptions.InvalidTokenError, ValueError) as exc:
+    except (JWTError, ValueError) as exc:
         raise _credentials_error() from exc
 
 

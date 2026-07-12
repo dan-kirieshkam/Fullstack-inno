@@ -3,13 +3,14 @@ from pathlib import Path
 
 import uvicorn
 from fastapi import FastAPI
-
+from app.api.endpoints import fav
 from app.api.health import router as health_router
 from app.config.config import get_settings
 from app.database import Base, engine
 from app.handlers.auth import router as auth_router
 from app.handlers.games import router as games_router
 from app.handlers.users import router as users_router
+from app.handlers.cats import router as cat_router
 from app.models.game import Game
 from app.models.user import User
 
@@ -25,7 +26,9 @@ app.include_router(auth_router)
 app.include_router(games_router)
 app.include_router(users_router)
 app.include_router(health_router)
+app.include_router(cat_router)
 
+app.include_router(fav.router, prefix="/api/endpoints")
 
 @app.get("/")
 def read_root() -> dict[str, str]:
