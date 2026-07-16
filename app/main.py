@@ -28,7 +28,7 @@ app.include_router(users_router)
 app.include_router(health_router)
 app.include_router(cat_router)
 
-app.include_router(fav.router, prefix="/api/endpoints")
+app.include_router(fav.router)
 
 @app.get("/")
 def read_root() -> dict[str, str]:

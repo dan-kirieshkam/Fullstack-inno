@@ -1,5 +1,5 @@
 from pydantic import BaseModel, ConfigDict, Field, field_validator
-
+from typing import Optional
 from app.models.user import UserRole
 
 
@@ -8,8 +8,8 @@ class UserCreate(BaseModel):
     password: str = Field(min_length=6, max_length=128)
 
     name: str = Field(min_length=3, max_length=50)
-    bursday: str = Field(min_length=3, max_length=100)
-    prev: str = Field(min_length=3, max_length=255)
+    # bursday: Optional[str] = Field(min_length=3, max_length=100)
+    # prev: Optional[str] = Field(min_length=3, max_length=255)
 
     @field_validator("email")
     @classmethod
@@ -47,8 +47,8 @@ class UserResponse(BaseModel):
     id: int
     email: str
     name: str
-    bursday: str
-    prev: str
+    # bursday: str
+    # prev: str
     is_active: bool
     role: UserRole
 

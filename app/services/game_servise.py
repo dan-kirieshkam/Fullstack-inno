@@ -16,9 +16,11 @@ class GameService:
     def create_game(self, schema: GameCreate) -> Game:
         game = Game(
             title=schema.title,
-            author=schema.author,
-            prev=schema.prev,
-            category_id=schema.category_id,
+            publisher=schema.publisher,
+            short_description=schema.short_description,
+            genre=schema.genre,
+            release_date=schema.release_date,
+            thumbnail=schema.thumbnail,
         )
 
         return self.repository.create(game)
@@ -53,11 +55,20 @@ class GameService:
         if schema.title is not None:
             game.title = schema.title
 
-        if schema.author is not None:
-            game.author = schema.author
+        if schema.publisher is not None:
+            game.publisher = schema.publisher
 
-        if schema.prev is not None:
-            game.prev = schema.prev
+        if schema.short_description is not None:
+            game.short_description = schema.short_description
+
+        if schema.genre is not None:
+            game.genre = schema.genre
+
+        if schema.release_date is not None:
+            game.release_date = schema.release_date
+
+        if schema.thumbnail is not None:
+            game.thumbnail = schema.thumbnail
         """дипсик"""
         if schema.category_id is not None:
             # Проверяем, существует ли категория

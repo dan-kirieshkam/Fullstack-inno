@@ -26,8 +26,8 @@ class FavoriteGameInfo(BaseModel):
     """Схема для информации об игре в избранном"""
     id: int
     title: str
-    author: str
-    prev: str
+    publisher: str
+    short_description: str
     extra_data: Optional[str] = None
 
 class UserFavoriteResponse(BaseModel):

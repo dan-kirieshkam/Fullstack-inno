@@ -2,8 +2,8 @@
 # from sqlalchemy.orm import Session
 
 # from app.database import get_db
-# from app.schemas.fav import FavCreate, FavResponse, FavUpdate
-# from app.services.rav_servise import FavService
+# from app.schemas.fav import FavoriteCreate, FavoriteResponse
+# from app.services.fav import FavoriteService
 
 # router = APIRouter(
 #     prefix="/favorites",
@@ -13,39 +13,39 @@
 
 # def get_fav_service(
 #     db: Session = Depends(get_db),
-# ) -> GameService:
-#     return GameService(db)
+# ) -> FavoriteService:
+#     return FavoriteService(db)
 
 
 # @router.post(
 #     "/",
-#     response_model=FavResponse,
+#     response_model=FavoriteResponse,
 #     status_code=status.HTTP_201_CREATED,
 # )
 # def create_fav(
-#     schema: FavCreate,
-#     service: FavService = Depends(get_fav_service),
+#     schema: FavoriteCreate,
+#     service: FavoriteService = Depends(get_fav_service),
 # ):
 #     return service.create_fav(schema)
 
 
 # @router.get(
 #     "/",
-#     response_model=list[GameResponse],
+#     response_model=list[FavoriteResponse],
 # )
 # def get_games(
-#     service: FavService = Depends(get_fav_service),
+#     service: FavoriteService = Depends(get_fav_service),
 # ):
 #     return service.get_games()
 
 
 # @router.get(
 #     "/{game_id}",
-#     response_model=GameResponse,
+#     response_model=FavoriteResponse,
 # )
 # def get_game(
 #     game_id: int,
-#     service: GameService = Depends(get_game_service),
+#     service: FavoriteService = Depends(get_game_service),
 # ):
 #     return service.get_game(game_id)
 

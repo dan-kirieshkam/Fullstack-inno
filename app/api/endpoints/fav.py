@@ -1,4 +1,4 @@
-# app/api/v1/endpoints/favorite.py
+# app/api/endpoints/fav.py
 from typing import Dict, Any
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy.orm import Session
@@ -14,13 +14,13 @@ from app.schemas.fav import (
     UserFavoriteResponse,
     FavoriteGameInfo
 )
+from app.auth import get_current_user
+from app.models.user import User
 
 router = APIRouter(prefix="/favorites", tags=["favorites"])
 
 
-# Dependency для получения сервиса
 def get_favorite_service(db: Session = Depends(get_db)) -> FavoriteService:
-    """Dependency для FavoriteService"""
     favorite_repo = FavoriteRepository(db)
     user_repo = UserRepository(db)
     game_repo = GameRepository(db)
@@ -38,15 +38,6 @@ async def add_to_favorites(
     favorite_data: FavoriteCreate,
     service: FavoriteService = Depends(get_favorite_service)
 ) -> FavoriteResponse:
-    """
-    Добавление игры в избранное
-    
-    Args:
-        favorite_data: Данные для создания избранного
-        
-    Returns:
-        FavoriteResponse: Созданная запись
-    """
     return await service.add_to_favorites(favorite_data)
 
 
@@ -61,16 +52,6 @@ async def remove_from_favorites(
     game_id: int = Query(..., description="ID игры"),
     service: FavoriteService = Depends(get_favorite_service)
 ) -> Dict[str, str]:
-    """
-    Удаление игры из избранного
-    
-    Args:
-        user_id: ID пользователя
-        game_id: ID игры
-        
-    Returns:
-        Dict: Сообщение об успешном удалении
-    """
     return await service.remove_from_favorites(user_id, game_id)
 
 
@@ -86,18 +67,22 @@ async def get_user_favorites(
     limit: int = Query(100, ge=1, le=100, description="Максимальное количество записей"),
     service: FavoriteService = Depends(get_favorite_service)
 ) -> Dict[str, Any]:
-    """
-    Получение всех избранных игр пользователя
-    
-    Args:
-        user_id: ID пользователя
-        skip: Количество пропускаемых записей
-        limit: Максимальное количество записей
-        
-    Returns:
-        UserFavoriteResponse: Список избранных игр
-    """
     return await service.get_user_favorites(user_id, skip, limit)
+
+
+@router.get(
+    "/me/",
+    response_model=UserFavoriteResponse,
+    summary="Получить избранные игры текущего пользователя",
+    description="Возвращает все избранные игры авторизованного пользователя"
+)
+async def get_my_favorites(
+    current_user: User = Depends(get_current_user),
+    skip: int = Query(0, ge=0, description="Количество пропускаемых записей"),
+    limit: int = Query(100, ge=1, le=100, description="Максимальное количество записей"),
+    service: FavoriteService = Depends(get_favorite_service)
+) -> Dict[str, Any]:
+    return await service.get_user_favorites(current_user.id, skip, limit)
 
 
 @router.get(
@@ -110,16 +95,6 @@ async def check_is_favorite(
     game_id: int = Query(..., description="ID игры"),
     service: FavoriteService = Depends(get_favorite_service)
 ) -> Dict[str, bool]:
-    """
-    Проверка наличия игры в избранном
-    
-    Args:
-        user_id: ID пользователя
-        game_id: ID игры
-        
-    Returns:
-        Dict: Результат проверки
-    """
     return await service.check_is_favorite(user_id, game_id)
 
 
@@ -133,16 +108,8 @@ async def get_favorite_by_id(
     favorite_id: int,
     service: FavoriteService = Depends(get_favorite_service)
 ) -> FavoriteResponse:
-    """
-    Получение записи избранного по ID
-    
-    Args:
-        favorite_id: ID записи избранного
-        
-    Returns:
-        FavoriteResponse: Запись избранного
-    """
-    return await service.get_favorite_by_id(favorite_id)
+    favorite = await service.get_favorite_by_id(favorite_id)
+    return favorite
 
 
 @router.delete(
@@ -155,13 +122,4 @@ async def clear_user_favorites(
     user_id: int,
     service: FavoriteService = Depends(get_favorite_service)
 ) -> Dict[str, str]:
-    """
-    Очистка всех избранных игр пользователя
-    
-    Args:
-        user_id: ID пользователя
-        
-    Returns:
-        Dict: Сообщение об успешной очистке
-    """
     return await service.clear_user_favorites(user_id)

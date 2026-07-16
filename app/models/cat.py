@@ -11,4 +11,4 @@ class Cat(Base):
 
     name: Mapped[str] = mapped_column(String, nullable=False)
 
-    games = relationship("Game", back_populates="categories")
+    # games = relationship("Game", back_populates="categories")
