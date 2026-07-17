@@ -1,15 +1,15 @@
 from streamlit import session_state, secrets
 import requests
 
-BACKEND_URL = secrets.BACKEND_URL
-
-LOGIN_ENDPOINT = f"{BACKEND_URL}/auth/login/"
-REGISTER_ENDPOINT = f"{BACKEND_URL}/auth/register/"
-PROFILE_ENDPOINT = f"{BACKEND_URL}/users/me/"
-ITEMS_ENDPOINT = f"{BACKEND_URL}/games/"
-FAVORITES_ENDPOINT = f"{BACKEND_URL}/favorites/"
-
+# BACKEND_URL = secrets.BACKEND_URL
 API_URL = "http://localhost:8000"
+LOGIN_ENDPOINT = f"{API_URL}/auth/login/"
+REGISTER_ENDPOINT = f"{API_URL}/auth/register/"
+PROFILE_ENDPOINT = f"{API_URL}/users/me/"
+ITEMS_ENDPOINT = f"{API_URL}/games/"
+FAVORITES_ENDPOINT = f"{API_URL}/favorites/"
+
+
 
 def register(email: str, password: str, name: str) -> requests.Response:
     data = {
